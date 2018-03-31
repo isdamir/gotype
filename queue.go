@@ -64,7 +64,7 @@ func (p *SliceQueue) DeQueue() interface{} {
 }
 
 //把新元素加入队列尾
-func (p *SliceQueue) EnQueue(item int) {
+func (p *SliceQueue) EnQueue(item interface{}) {
 	p.Lock()
 	defer p.Unlock()
 	p.arr = append(p.arr, item)
@@ -79,7 +79,7 @@ func (p *SliceQueue) EnQueueFirst(item interface{}) {
 }
 
 //简单实现一个Remove
-func (p *SliceQueue) Remove(item int) {
+func (p *SliceQueue) Remove(item interface{}) {
 	p.Lock()
 	defer p.Unlock()
 	for k, v := range p.arr {
