@@ -1,4 +1,4 @@
-package main
+package gotype
 //链表定义
 type LNode struct {
 	data interface{}

@@ -1,4 +1,4 @@
-package main
+package gotype
 //用于演示Golang相关算法所写的数据结构
 import (
 	"sync"
