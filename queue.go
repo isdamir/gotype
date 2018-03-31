@@ -49,6 +49,18 @@ func (p *SliceQueue) EnQueue(item interface{}){
 	p.arr=append(p.arr,item)
 	p.rear++
 }
+//简单实现一个Remove
+func (p *SliceQueue) Remove(item interface{}) {
+	for k, v := range p.arr {
+		if v == item {
+			p.arr = append(p.arr[:k], p.arr[k+1:]...)
+			p.rear--
+		}
+	}
+}
+func (p *SliceQueue) List() []interface{} {
+	return p.arr
+}
 type LinkedQueue struct{
 	head *LNode
 	end *LNode
