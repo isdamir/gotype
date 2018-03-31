@@ -70,6 +70,11 @@ func (p *SliceQueue) PopBack() interface{}  {
 	p.arr = p.arr[:p.Size()-1]
 	return ret
 }
+//把新元素加入队列首
+func (p *SliceQueue) EnQueueFirst(item interface{}) {
+	newQueue := []interface{}{item}
+	p.arr = append(newQueue, p.arr[:]...)
+}
 type LinkedQueue struct{
 	head *LNode
 	end *LNode
