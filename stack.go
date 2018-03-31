@@ -57,13 +57,13 @@ func NewLinkedStack()*LinkedStack{
 	return &LinkedStack{head:&LNode{}}
 }
 func (p *LinkedStack) IsEmpty() bool{
-	return p.head.next==nil
+	return p.head.Next==nil
 }
 func (p *LinkedStack) Size() int{
 	size:=0
-	node:=p.head.next
+	node:=p.head.Next
 	for node!=nil {
-		node=node.next
+		node=node.Next
 		size++
 	}
 	return size
@@ -71,22 +71,22 @@ func (p *LinkedStack) Size() int{
 func (p *LinkedStack) Push(e interface{}){
 	p.Lock()
 	defer p.Unlock()
-	node:=&LNode{data:e,next:p.head.next}
-	p.head.next=node
+	node:=&LNode{Data:e,Next:p.head.Next}
+	p.head.Next=node
 }
 func (p *LinkedStack) Pop() interface{}{
 	p.Lock()
 	defer p.Unlock()
-	tmp:=p.head.next
+	tmp:=p.head.Next
 	if tmp!=nil{
-		p.head.next = tmp.next
-		return tmp.data
+		p.head.Next = tmp.Next
+		return tmp.Data
 	}
 	panic(errors.New("栈已经为空"))
 }
 func (p *LinkedStack) Top() interface{}{
-	if p.head.next!=nil{
-		return p.head.next.data
+	if p.head.Next!=nil{
+		return p.head.Next.Data
 	}
 	panic(errors.New("栈已经为空"))
 }

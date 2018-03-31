@@ -108,7 +108,7 @@ func (p *LinkedQueue) Size() int{
 	size:=0
 	node:=p.head
 	for node!=nil{
-		node=node.next
+		node=node.Next
 		size++
 	}
 	return size
@@ -117,12 +117,12 @@ func (p *LinkedQueue) Size() int{
 func (p *LinkedQueue) EnQueue(e interface{}){
 	p.Lock()
 	defer p.Unlock()
-	node:=&LNode{data:e}
+	node:=&LNode{Data:e}
 	if p.head==nil{
 		p.head=node
 		p.end=node
 	}else{
-		p.end.next=node
+		p.end.Next=node
 		p.end=node
 	}
 }
@@ -133,7 +133,7 @@ func (p *LinkedQueue) DeQueue(){
 	if p.head==nil{
 		panic(errors.New("队列已经为空"))
 	}
-	p.head=p.head.next
+	p.head=p.head.Next
 	if p.head==nil{
 		p.end=nil
 	}
@@ -143,12 +143,12 @@ func (p *LinkedQueue) GetFront() interface{}{
 	if p.head==nil{
 		panic(errors.New("队列已经为空"))
 	}
-	return p.head.data
+	return p.head.Data
 }
 //取得队列尾元素
 func (p *LinkedQueue) GetBack() interface{}{
 	if p.end==nil{
 		panic(errors.New("队列已经为空"))
 	}
-	return p.end.data
+	return p.end.Data
 }
