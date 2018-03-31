@@ -6,63 +6,42 @@ import (
 )
 type SliceQueue struct{
 	arr []interface{}
-	front int //队列头
-	rear int //队列尾
 	sync.RWMutex
 }
 func NewSliceQueue()*SliceQueue{
 	return &SliceQueue{arr:make([]interface{},0)}
 }
+
 // 判断队列是否为空
-func (p *SliceQueue) IsEmpty() bool{
-	return p.front==p.rear
+func (p *SliceQueue) IsEmpty() bool {
+	return p.Size()==0
 }
+
 //返回队列的大小
-func (p *SliceQueue) Size() int{
-	return p.rear-p.front
+func (p *SliceQueue) Size() int {
+	return len(p.arr)
 }
+
 //返回队列首元素
-func (p *SliceQueue) GetFront() interface{}{
-	if p.IsEmpty(){
+func (p *SliceQueue) GetFront() interface{} {
+	if p.IsEmpty() {
 		panic(errors.New("队列已经为空"))
 	}
-	return p.arr[p.front]
+	return p.arr[0]
 }
+
 //返回队列尾元素
-func (p *SliceQueue) GetBack()interface{}{
-	if p.IsEmpty(){
+func (p *SliceQueue) GetBack() interface{} {
+	if p.IsEmpty() {
 		panic(errors.New("队列已经为空"))
 	}
-	return p.arr[p.rear-1]
-} 
-//删除队列头元素
-func (p *SliceQueue) DeQueue(){
-	if p.rear>p.front{
-		p.rear--
-		p.arr=p.arr[1:]
-	}else{
-		panic(errors.New("队列已经为空"))
-	}
+	return p.arr[p.Size()-1]
 }
-//把新元素加入队列尾
-func (p *SliceQueue) EnQueue(item interface{}){
-	p.arr=append(p.arr,item)
-	p.rear++
-}
-//简单实现一个Remove
-func (p *SliceQueue) Remove(item interface{}) {
-	for k, v := range p.arr {
-		if v == item {
-			p.arr = append(p.arr[:k], p.arr[k+1:]...)
-			p.rear--
-		}
-	}
-}
-func (p *SliceQueue) List() []interface{} {
-	return p.arr
-}
+
 //返回并移除队列尾元素
-func (p *SliceQueue) PopBack() interface{}  {
+func (p *SliceQueue) PopBack() interface{} {
+	p.Lock()
+	defer p.Unlock()
 	if p.IsEmpty() {
 		panic(errors.New("队列已经为空"))
 	}
@@ -70,14 +49,52 @@ func (p *SliceQueue) PopBack() interface{}  {
 	p.arr = p.arr[:p.Size()-1]
 	return ret
 }
+
+//删除队列头元素
+func (p *SliceQueue) DeQueue() interface{} {
+	p.Lock()
+	defer p.Unlock()
+	if len(p.arr)!=0 {
+		first := p.arr[0]
+		p.arr = p.arr[1:]
+		return first
+	} else {
+		panic(errors.New("队列已经为空"))
+	}
+}
+
+//把新元素加入队列尾
+func (p *SliceQueue) EnQueue(item int) {
+	p.Lock()
+	defer p.Unlock()
+	p.arr = append(p.arr, item)
+}
+
 //把新元素加入队列首
 func (p *SliceQueue) EnQueueFirst(item interface{}) {
+	p.Lock()
+	defer p.Unlock()
 	newQueue := []interface{}{item}
 	p.arr = append(newQueue, p.arr[:]...)
+}
+
+//简单实现一个Remove
+func (p *SliceQueue) Remove(item int) {
+	p.Lock()
+	defer p.Unlock()
+	for k, v := range p.arr {
+		if v == item {
+			p.arr = append(p.arr[:k], p.arr[k+1:]...)
+		}
+	}
+}
+func (p *SliceQueue) List() []interface{} {
+	return p.arr
 }
 type LinkedQueue struct{
 	head *LNode
 	end *LNode
+	sync.RWMutex
 }
 func NewLinkedQueue()*LinkedQueue{
 	return &LinkedQueue{}
@@ -98,6 +115,8 @@ func (p *LinkedQueue) Size() int{
 }
 //入队列：把元素e加到队列尾
 func (p *LinkedQueue) EnQueue(e interface{}){
+	p.Lock()
+	defer p.Unlock()
 	node:=&LNode{data:e}
 	if p.head==nil{
 		p.head=node
@@ -109,6 +128,8 @@ func (p *LinkedQueue) EnQueue(e interface{}){
 }
 //出队列，删除队列首元素
 func (p *LinkedQueue) DeQueue(){
+	p.Lock()
+	defer p.Unlock()
 	if p.head==nil{
 		panic(errors.New("队列已经为空"))
 	}
