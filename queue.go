@@ -61,6 +61,15 @@ func (p *SliceQueue) Remove(item interface{}) {
 func (p *SliceQueue) List() []interface{} {
 	return p.arr
 }
+//返回并移除队列尾元素
+func (p *SliceQueue) PopBack() interface{}  {
+	if p.IsEmpty() {
+		panic(errors.New("队列已经为空"))
+	}
+	ret := p.arr[p.Size()-1]
+	p.arr = p.arr[:p.Size()-1]
+	return ret
+}
 type LinkedQueue struct{
 	head *LNode
 	end *LNode
