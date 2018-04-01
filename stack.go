@@ -2,7 +2,6 @@ package gotype
 //用于演示Golang相关算法所写的数据结构
 import (
 	"sync"
-	"errors"
 )
 //slice所写的stack
 type SliceStack struct {
@@ -24,7 +23,7 @@ func (p *SliceStack)  Size() int{
 //返回栈顶元素
 func (p *SliceStack) Top() interface{}{
 	if(p.IsEmpty()){
-		panic(errors.New("栈已经为空"))
+		return nil
 	}
 	return p.arr[p.stackSize-1]
 }
@@ -38,7 +37,7 @@ func (p *SliceStack) Pop() interface{}{
 		p.arr=p.arr[:p.stackSize]
 		return ret
 	}
-	panic(errors.New("栈已经为空"))
+	return nil
 }
 //Push栈元素
 func (p *SliceStack) Push(t interface{}){
@@ -46,6 +45,9 @@ func (p *SliceStack) Push(t interface{}){
 	defer p.Unlock()
 	p.arr=append(p.arr,t)
 	p.stackSize =p.stackSize+1
+}
+func (p *SliceStack) List()[]interface{}{
+	return p.arr
 }
 
 //链表所写的stack
@@ -82,11 +84,11 @@ func (p *LinkedStack) Pop() interface{}{
 		p.head.Next = tmp.Next
 		return tmp.Data
 	}
-	panic(errors.New("栈已经为空"))
+	return nil
 }
 func (p *LinkedStack) Top() interface{}{
 	if p.head.Next!=nil{
 		return p.head.Next.Data
 	}
-	panic(errors.New("栈已经为空"))
+	return nil
 }

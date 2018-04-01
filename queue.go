@@ -2,7 +2,6 @@ package gotype
 //用于演示Golang相关算法所写的数据结构
 import (
 	"sync"
-	"errors"
 )
 type SliceQueue struct{
 	arr []interface{}
@@ -25,7 +24,7 @@ func (p *SliceQueue) Size() int {
 //返回队列首元素
 func (p *SliceQueue) GetFront() interface{} {
 	if p.IsEmpty() {
-		panic(errors.New("队列已经为空"))
+		return nil
 	}
 	return p.arr[0]
 }
@@ -33,7 +32,7 @@ func (p *SliceQueue) GetFront() interface{} {
 //返回队列尾元素
 func (p *SliceQueue) GetBack() interface{} {
 	if p.IsEmpty() {
-		panic(errors.New("队列已经为空"))
+		return nil
 	}
 	return p.arr[p.Size()-1]
 }
@@ -43,7 +42,7 @@ func (p *SliceQueue) PopBack() interface{} {
 	p.Lock()
 	defer p.Unlock()
 	if p.IsEmpty() {
-		panic(errors.New("队列已经为空"))
+		return nil
 	}
 	ret := p.arr[p.Size()-1]
 	p.arr = p.arr[:p.Size()-1]
@@ -59,7 +58,7 @@ func (p *SliceQueue) DeQueue() interface{} {
 		p.arr = p.arr[1:]
 		return first
 	} else {
-		panic(errors.New("队列已经为空"))
+		return nil
 	}
 }
 
@@ -127,28 +126,30 @@ func (p *LinkedQueue) EnQueue(e interface{}){
 	}
 }
 //出队列，删除队列首元素
-func (p *LinkedQueue) DeQueue(){
+func (p *LinkedQueue) DeQueue()interface{}{
 	p.Lock()
 	defer p.Unlock()
 	if p.head==nil{
-		panic(errors.New("队列已经为空"))
+		return nil
 	}
+	res:=p.head
 	p.head=p.head.Next
 	if p.head==nil{
 		p.end=nil
 	}
+	return res
 }
 //取得队列首元素
 func (p *LinkedQueue) GetFront() interface{}{
 	if p.head==nil{
-		panic(errors.New("队列已经为空"))
+		return nil
 	}
 	return p.head.Data
 }
 //取得队列尾元素
 func (p *LinkedQueue) GetBack() interface{}{
 	if p.end==nil{
-		panic(errors.New("队列已经为空"))
+		return nil
 	}
 	return p.end.Data
 }

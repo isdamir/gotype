@@ -16,7 +16,8 @@ func TestSliceStatck(t *testing.T){
 	stack.Push(1)
 	assert.Equal(t,1,stack.Top().(int))
 	assert.Equal(t,1,stack.Size())
-	stack.Pop()
+	assert.NotNil(t,stack.Pop())
+	assert.Nil(t,stack.Pop())
 	assert.Equal(t,0,stack.Size())
 }
 //测试Linked的Stack
