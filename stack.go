@@ -1,5 +1,6 @@
 package gotype
 //用于演示Golang相关算法所写的数据结构
+//也可以使用container/list 来实现，本质是双向链表
 import (
 	"sync"
 )

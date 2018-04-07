@@ -16,3 +16,23 @@ type BNode struct{
 func NewBNode()*BNode{
 	return &BNode{}
 }
+//Trie树
+type TrieNode struct{
+	IsLeaf bool
+	Url string
+	Child []*TrieNode
+}
+func NewTrieNode(count int)*TrieNode{
+	return &TrieNode{IsLeaf:false,Url:"",Child:make([]*TrieNode,count)}
+}
+//AVL树
+type AVLNode struct{
+	Data int
+	Height int
+	Count int
+	Left *AVLNode
+	Right *AVLNode
+}
+func NewAVLNode(data int)*AVLNode{
+	return &AVLNode{data,1,1,nil,nil}
+}
