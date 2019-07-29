@@ -40,10 +40,7 @@ func (s *Set) Clear() {
 	s.m = map[interface{}]bool{}
 }
 func (s *Set) IsEmpty() bool {
-	if s.Len() == 0 {
-		return true
-	}
-	return false
+	return s.Len() == 0
 }
 func (s *Set) List() []interface{} {
 	s.RLock()
