@@ -1,4 +1,4 @@
-package gotype
+package priority_queue
 
 import (
 	"container/heap"
@@ -42,7 +42,7 @@ type PriorityQueue struct {
 	s *sorter
 }
 
-func NewPriorityQueue() *PriorityQueue {
+func New() *PriorityQueue {
 	q := &PriorityQueue{s: new(sorter)}
 	heap.Init(q.s)
 	return q
