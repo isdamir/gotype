@@ -1,4 +1,4 @@
-package gotype
+package priority_queue
 
 import (
 	"math/rand"

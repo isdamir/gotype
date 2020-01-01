@@ -42,7 +42,7 @@ type PriorityQueue struct {
 	s *sorter
 }
 
-func New() *PriorityQueue {
+func NewPriorityQueue() *PriorityQueue {
 	q := &PriorityQueue{s: new(sorter)}
 	heap.Init(q.s)
 	return q
